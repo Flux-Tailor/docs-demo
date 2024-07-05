@@ -1,0 +1,1660 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component type</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript"><!--
+        var propertiesBoxes= new Array('properties_Document_type', 
+				'properties_Document_authorName', 
+				'properties_Document_createdDateTime', 
+				'properties_Document_lastModifiedDateTime', 
+				'properties_Document_revisionNumber', 
+				'properties_Document_electronicAddress', 
+				'properties_Document_subject', 
+				'properties_Document_title', 
+				'properties_Document_docStatus', 
+				'properties_Document_status', 
+				'properties_Document_comment');
+var sourceBoxes= new Array('source_Document_type', 
+				'source_Document_authorName', 
+				'source_Document_createdDateTime', 
+				'source_Document_lastModifiedDateTime', 
+				'source_Document_revisionNumber', 
+				'source_Document_electronicAddress', 
+				'source_Document_subject', 
+				'source_Document_title', 
+				'source_Document_docStatus', 
+				'source_Document_status', 
+				'source_Document_comment', 
+				'source_Document');
+var diagramBoxes= new Array('diagram_Document_type', 
+				'diagram_Document_authorName', 
+				'diagram_Document_createdDateTime', 
+				'diagram_Document_lastModifiedDateTime', 
+				'diagram_Document_revisionNumber', 
+				'diagram_Document_electronicAddress', 
+				'diagram_Document_subject', 
+				'diagram_Document_title', 
+				'diagram_Document_docStatus', 
+				'diagram_Document_status', 
+				'diagram_Document_comment', 
+				'diagram_Document');
+var annotationBoxes= new Array('annotations_Document_type', 
+				'annotations_Document_authorName', 
+				'annotations_Document_createdDateTime', 
+				'annotations_Document_lastModifiedDateTime', 
+				'annotations_Document_revisionNumber', 
+				'annotations_Document_electronicAddress', 
+				'annotations_Document_subject', 
+				'annotations_Document_title', 
+				'annotations_Document_docStatus', 
+				'annotations_Document_status', 
+				'annotations_Document_comment', 
+				'annotations_Document');
+var modelBoxes= new Array('model_Document');
+
+      
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    
+                    //--></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, annotationBoxes);" class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, sourceBoxes);" class="control" /></span><span class="globalControlName">Source</span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="Document_type"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document')">Document</a></b> / type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Document_type" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Document_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Document_type" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Utility-specific classification of this document, according to its corporate standards, practices, and existing IT systems (e.g., for management of assets, maintenance, work, outage, customers, etc.).</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Document_type" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Document_type');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Document_type" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_type_2.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_String256.html#String256" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String256')">String256</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Document_type" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Document_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Document_type" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Document_type" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Document_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Document_type" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Utility-specific classification of this document, according to its corporate standards, practices, and existing IT systems (e.g., for management of assets, maintenance, work, outage, customers, etc.).</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Document_authorName"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document')">Document</a></b> / authorName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Document_authorName" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Document_authorName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Document_authorName" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Name of the author of this document.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Document_authorName" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Document_authorName');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Document_authorName" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_authorName.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_String256.html#String256" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String256')">String256</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Document_authorName" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Document_authorName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Document_authorName" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Document_authorName" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Document_authorName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Document_authorName" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"authorName"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Name of the author of this document.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Document_createdDateTime"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document')">Document</a></b> / createdDateTime</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Document_createdDateTime" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Document_createdDateTime');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Document_createdDateTime" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Date and time that this document was created.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Document_createdDateTime" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Document_createdDateTime');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Document_createdDateTime" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_createdDateTime.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_TimeType.html#TimeType" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TimeType')">TimeType</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Document_createdDateTime" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Document_createdDateTime');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Document_createdDateTime" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Document_createdDateTime" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Document_createdDateTime');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Document_createdDateTime" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"createdDateTime"</span><span class="tAN"> type=</span><span class="tAV">"TimeType"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Date and time that this document was created.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Document_lastModifiedDateTime"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document')">Document</a></b> / lastModifiedDateTime</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Document_lastModifiedDateTime" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Document_lastModifiedDateTime');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Document_lastModifiedDateTime" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Date and time this document was last modified. Documents may potentially be modified many times during their lifetime.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Document_lastModifiedDateTime" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Document_lastModifiedDateTime');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Document_lastModifiedDateTime" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_lastModifiedDateTime.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_TimeType.html#TimeType" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TimeType')">TimeType</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Document_lastModifiedDateTime" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Document_lastModifiedDateTime');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Document_lastModifiedDateTime" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Document_lastModifiedDateTime" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Document_lastModifiedDateTime');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Document_lastModifiedDateTime" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"lastModifiedDateTime"</span><span class="tAN"> type=</span><span class="tAV">"TimeType"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Date and time this document was last modified. Documents may potentially be modified many times during their lifetime.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Document_revisionNumber"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document')">Document</a></b> / revisionNumber</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Document_revisionNumber" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Document_revisionNumber');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Document_revisionNumber" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Revision number for this document.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Document_revisionNumber" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Document_revisionNumber');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Document_revisionNumber" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_revisionNumber.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_String256.html#String256" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String256')">String256</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Document_revisionNumber" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Document_revisionNumber');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Document_revisionNumber" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Document_revisionNumber" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Document_revisionNumber');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Document_revisionNumber" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"revisionNumber"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Revision number for this document.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Document_electronicAddress"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document')">Document</a></b> / electronicAddress</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Document_electronicAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Document_electronicAddress');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Document_electronicAddress" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Electronic address.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Document_electronicAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Document_electronicAddress');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Document_electronicAddress" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_electronicAddress_1.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_ElectronicAddress.html#ElectronicAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ElectronicAddress')">ElectronicAddress</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Document_electronicAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Document_electronicAddress');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Document_electronicAddress" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Document_electronicAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Document_electronicAddress');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Document_electronicAddress" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"electronicAddress"</span><span class="tAN"> type=</span><span class="tAV">"ElectronicAddress"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Electronic address.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Document_subject"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document')">Document</a></b> / subject</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Document_subject" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Document_subject');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Document_subject" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Document subject.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Document_subject" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Document_subject');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Document_subject" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_subject.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_String256.html#String256" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String256')">String256</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Document_subject" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Document_subject');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Document_subject" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Document_subject" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Document_subject');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Document_subject" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"subject"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Document subject.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Document_title"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document')">Document</a></b> / title</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Document_title" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Document_title');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Document_title" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Document title.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Document_title" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Document_title');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Document_title" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_title.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_String256.html#String256" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String256')">String256</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Document_title" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Document_title');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Document_title" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Document_title" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Document_title');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Document_title" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"title"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Document title.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Document_docStatus"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document')">Document</a></b> / docStatus</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Document_docStatus" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Document_docStatus');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Document_docStatus" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Status of this document. For status of subject matter this document represents (e.g., Agreement, Work), use 'status' attribute.</span><span class="tI">
+</span><span class="tT">Example values for 'docStatus.status' are draft, approved, cancelled, etc.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Document_docStatus" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Document_docStatus');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Document_docStatus" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_docStatus.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_Status.html#Status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Status')">Status</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Document_docStatus" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Document_docStatus');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Document_docStatus" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Document_docStatus" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Document_docStatus');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Document_docStatus" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"docStatus"</span><span class="tAN"> type=</span><span class="tAV">"Status"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Status of this document. For status of subject matter this document represents (e.g., Agreement, Work), use 'status' attribute. Example values for 'docStatus.status' are draft, approved, cancelled, etc.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Document_status"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document')">Document</a></b> / status</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Document_status" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Document_status');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Document_status" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Status of subject matter (e.g., Agreement, Work) this document represents. For status of the document itself, use 'docStatus' attribute.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Document_status" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Document_status');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Document_status" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_status_2.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_Status.html#Status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Status')">Status</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Document_status" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Document_status');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Document_status" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Document_status" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Document_status');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Document_status" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"status"</span><span class="tAN"> type=</span><span class="tAV">"Status"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Status of subject matter (e.g., Agreement, Work) this document represents. For status of the document itself, use 'docStatus' attribute.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Document_comment"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document')">Document</a></b> / comment</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Document_comment" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Document_comment');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Document_comment" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Free text comment.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Document_comment" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Document_comment');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Document_comment" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_comment.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_String256.html#String256" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String256')">String256</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Document_comment" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Document_comment');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Document_comment" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Document_comment" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Document_comment');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Document_comment" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"comment"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Free text comment.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Document"></a><div class="componentTitle">Complex Type <span class="qname">Document</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Document" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Document');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Document" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Parent class for different groupings of information collected and managed as a part of a business process. It will frequently contain references to other objects, such as assets, people and power system resources.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Document" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Document');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Document" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Complex_Type_Document.jpeg" usemap="#customer_v4_xsd_Complex_Type_Document" /><map name="customer_v4_xsd_Complex_Type_Document" id="customer_v4_xsd_Complex_Type_Document"><area alt="customer_v4_xsd_Complex_Type_Document.tmp#Document_type" href="customer_v4_xsd_Complex_Type_Document.html#Document_type" coords="296,6,438,84" /><area alt="customer_v4_xsd_Complex_Type_Document.tmp#Document_authorName" href="customer_v4_xsd_Complex_Type_Document.html#Document_authorName" coords="296,137,438,215" /><area alt="customer_v4_xsd_Complex_Type_Document.tmp#Document_createdDateTime" href="customer_v4_xsd_Complex_Type_Document.html#Document_createdDateTime" coords="296,255,437,333" /><area alt="customer_v4_xsd_Complex_Type_Document.tmp#Document_lastModifiedDateTime" href="customer_v4_xsd_Complex_Type_Document.html#Document_lastModifiedDateTime" coords="296,373,437,451" /><area alt="customer_v4_xsd_Complex_Type_Document.tmp#Document_revisionNumber" href="customer_v4_xsd_Complex_Type_Document.html#Document_revisionNumber" coords="296,504,438,582" /><area alt="customer_v4_xsd_Complex_Type_Document.tmp#Document_electronicAddress" href="customer_v4_xsd_Complex_Type_Document.html#Document_electronicAddress" coords="296,622,483,700" /><area alt="customer_v4_xsd_Complex_Type_Document.tmp#Document_subject" href="customer_v4_xsd_Complex_Type_Document.html#Document_subject" coords="296,740,438,818" /><area alt="customer_v4_xsd_Complex_Type_Document.tmp#Document_title" href="customer_v4_xsd_Complex_Type_Document.html#Document_title" coords="296,858,438,936" /><area alt="customer_v4_xsd_Complex_Type_Document.tmp#Document_docStatus" href="customer_v4_xsd_Complex_Type_Document.html#Document_docStatus" coords="296,976,431,1054" /><area alt="customer_v4_xsd_Complex_Type_Document.tmp#Document_status" href="customer_v4_xsd_Complex_Type_Document.html#Document_status" coords="296,1107,431,1185" /><area alt="customer_v4_xsd_Complex_Type_Document.tmp#Document_comment" href="customer_v4_xsd_Complex_Type_Document.html#Document_comment" coords="296,1238,438,1316" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>extension of <b><a href="customer_v4_xsd_Complex_Type_IdentifiedObject.html#IdentifiedObject" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component IdentifiedObject')">IdentifiedObject</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type hierarchy</b></td>
+                        <td>
+                           <ul class="internal">
+                              <li class="internal"><b>IdentifiedObject</b><ul class="internal">
+                                    <li class="internal"><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document')">Document</a></b></li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_Document" type="image" src="img/btM.gif" value="-" onclick="switchState('model_Document');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_Document" style="display:block"><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_type" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component type{0,1}')">type{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_authorName" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component authorName{0,1}')">authorName{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_createdDateTime" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component createdDateTime{0,1}')">createdDateTime{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_lastModifiedDateTime" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component lastModifiedDateTime{0,1}')">lastModifiedDateTime{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_revisionNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component revisionNumber{0,1}')">revisionNumber{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_electronicAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component electronicAddress{0,1}')">electronicAddress{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_subject" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component subject{0,1}')">subject{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_title" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component title{0,1}')">title{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_docStatus" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component docStatus{0,1}')">docStatus{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component status{0,1}')">status{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_comment" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component comment{0,1}')">comment{0,1}</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_authorName" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component authorName')">authorName</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_comment" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component comment')">comment</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_createdDateTime" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component createdDateTime')">createdDateTime</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_docStatus" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component docStatus')">docStatus</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_electronicAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component electronicAddress')">electronicAddress</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_lastModifiedDateTime" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component lastModifiedDateTime')">lastModifiedDateTime</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_revisionNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component revisionNumber')">revisionNumber</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component status')">status</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_subject" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component subject')">subject</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_title" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component title')">title</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_type" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component type')">type</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Document" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Document');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Document" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:complexType</span><span class="tAN"> name=</span><span class="tAV">"Document"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Parent class for different groupings of information collected and managed as a part of a business process. It will frequently contain references to other objects, such as assets, people and power system resources.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:complexContent</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:extension</span><span class="tAN"> base=</span><span class="tAV">"IdentifiedObject"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Utility-specific classification of this document, according to its corporate standards, practices, and existing IT systems (e.g., for management of assets, maintenance, work, outage, customers, etc.).</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"authorName"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Name of the author of this document.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"createdDateTime"</span><span class="tAN"> type=</span><span class="tAV">"TimeType"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Date and time that this document was created.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"lastModifiedDateTime"</span><span class="tAN"> type=</span><span class="tAV">"TimeType"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Date and time this document was last modified. Documents may potentially be modified many times during their lifetime.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"revisionNumber"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Revision number for this document.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"electronicAddress"</span><span class="tAN"> type=</span><span class="tAV">"ElectronicAddress"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Electronic address.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"subject"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Document subject.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"title"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Document title.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"docStatus"</span><span class="tAN"> type=</span><span class="tAV">"Status"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Status of this document. For status of subject matter this document represents (e.g., Agreement, Work), use 'status' attribute. Example values for 'docStatus.status' are draft, approved, cancelled, etc.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"status"</span><span class="tAN"> type=</span><span class="tAV">"Status"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Status of subject matter (e.g., Agreement, Work) this document represents. For status of the document itself, use 'docStatus' attribute.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"comment"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Free text comment.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:extension&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:complexContent&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:complexType&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.</div>
+      </div><script type="text/javascript"><!--
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                //--></script></body>
+</html>
