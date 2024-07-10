@@ -1,0 +1,1551 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component type</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript"><!--
+        var propertiesBoxes= new Array('properties_Location_type', 
+				'properties_Location_mainAddress', 
+				'properties_Location_secondaryAddress', 
+				'properties_Location_phone1', 
+				'properties_Location_phone2', 
+				'properties_Location_electronicAddress', 
+				'properties_Location_geoInfoReference', 
+				'properties_Location_direction', 
+				'properties_Location_status', 
+				'properties_Location_positionPoints');
+var sourceBoxes= new Array('source_Location_type', 
+				'source_Location_mainAddress', 
+				'source_Location_secondaryAddress', 
+				'source_Location_phone1', 
+				'source_Location_phone2', 
+				'source_Location_electronicAddress', 
+				'source_Location_geoInfoReference', 
+				'source_Location_direction', 
+				'source_Location_status', 
+				'source_Location_positionPoints', 
+				'source_Location');
+var diagramBoxes= new Array('diagram_Location_type', 
+				'diagram_Location_mainAddress', 
+				'diagram_Location_secondaryAddress', 
+				'diagram_Location_phone1', 
+				'diagram_Location_phone2', 
+				'diagram_Location_electronicAddress', 
+				'diagram_Location_geoInfoReference', 
+				'diagram_Location_direction', 
+				'diagram_Location_status', 
+				'diagram_Location_positionPoints', 
+				'diagram_Location');
+var annotationBoxes= new Array('annotations_Location_type', 
+				'annotations_Location_mainAddress', 
+				'annotations_Location_secondaryAddress', 
+				'annotations_Location_phone1', 
+				'annotations_Location_phone2', 
+				'annotations_Location_electronicAddress', 
+				'annotations_Location_geoInfoReference', 
+				'annotations_Location_direction', 
+				'annotations_Location_status', 
+				'annotations_Location_positionPoints', 
+				'annotations_Location');
+var modelBoxes= new Array('model_Location');
+
+      
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    
+                    //--></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, annotationBoxes);" class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, sourceBoxes);" class="control" /></span><span class="globalControlName">Source</span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="Location_type"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location')">Location</a></b> / type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Location_type" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Location_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Location_type" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Classification by utility's corporate standards and practices, relative to the location itself (e.g., geographical, functional accounting, etc., not a given property that happens to exist at that location).</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Location_type" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Location_type');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Location_type" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_type_3.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_String256.html#String256" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String256')">String256</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Location_type" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Location_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Location_type" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Location_type" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Location_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Location_type" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Classification by utility's corporate standards and practices, relative to the location itself (e.g., geographical, functional accounting, etc., not a given property that happens to exist at that location).</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Location_mainAddress"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location')">Location</a></b> / mainAddress</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Location_mainAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Location_mainAddress');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Location_mainAddress" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Main address of the location.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Location_mainAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Location_mainAddress');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Location_mainAddress" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_mainAddress.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_StreetAddress.html#StreetAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetAddress')">StreetAddress</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Location_mainAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Location_mainAddress');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Location_mainAddress" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Location_mainAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Location_mainAddress');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Location_mainAddress" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"mainAddress"</span><span class="tAN"> type=</span><span class="tAV">"StreetAddress"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Main address of the location.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Location_secondaryAddress"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location')">Location</a></b> / secondaryAddress</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Location_secondaryAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Location_secondaryAddress');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Location_secondaryAddress" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Secondary address of the location. For example, PO Box address may have different ZIP code than that in the 'mainAddress'.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Location_secondaryAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Location_secondaryAddress');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Location_secondaryAddress" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_secondaryAddress.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_StreetAddress.html#StreetAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetAddress')">StreetAddress</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Location_secondaryAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Location_secondaryAddress');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Location_secondaryAddress" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Location_secondaryAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Location_secondaryAddress');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Location_secondaryAddress" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"secondaryAddress"</span><span class="tAN"> type=</span><span class="tAV">"StreetAddress"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Secondary address of the location. For example, PO Box address may have different ZIP code than that in the 'mainAddress'.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Location_phone1"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location')">Location</a></b> / phone1</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Location_phone1" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Location_phone1');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Location_phone1" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Phone number.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Location_phone1" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Location_phone1');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Location_phone1" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_phone1.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_TelephoneNumber.html#TelephoneNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TelephoneNumber')">TelephoneNumber</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Location_phone1" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Location_phone1');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Location_phone1" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Location_phone1" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Location_phone1');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Location_phone1" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"phone1"</span><span class="tAN"> type=</span><span class="tAV">"TelephoneNumber"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Phone number.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Location_phone2"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location')">Location</a></b> / phone2</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Location_phone2" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Location_phone2');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Location_phone2" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Additional phone number.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Location_phone2" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Location_phone2');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Location_phone2" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_phone2.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_TelephoneNumber.html#TelephoneNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TelephoneNumber')">TelephoneNumber</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Location_phone2" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Location_phone2');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Location_phone2" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Location_phone2" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Location_phone2');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Location_phone2" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"phone2"</span><span class="tAN"> type=</span><span class="tAV">"TelephoneNumber"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Additional phone number.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Location_electronicAddress"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location')">Location</a></b> / electronicAddress</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Location_electronicAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Location_electronicAddress');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Location_electronicAddress" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Electronic address.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Location_electronicAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Location_electronicAddress');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Location_electronicAddress" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_electronicAddress_2.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_ElectronicAddress.html#ElectronicAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ElectronicAddress')">ElectronicAddress</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Location_electronicAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Location_electronicAddress');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Location_electronicAddress" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Location_electronicAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Location_electronicAddress');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Location_electronicAddress" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"electronicAddress"</span><span class="tAN"> type=</span><span class="tAV">"ElectronicAddress"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Electronic address.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Location_geoInfoReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location')">Location</a></b> / geoInfoReference</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Location_geoInfoReference" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Location_geoInfoReference');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Location_geoInfoReference" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">(if applicable) Reference to geographical information source, often external to the utility.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Location_geoInfoReference" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Location_geoInfoReference');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Location_geoInfoReference" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_geoInfoReference.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_String256.html#String256" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String256')">String256</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Location_geoInfoReference" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Location_geoInfoReference');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Location_geoInfoReference" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Location_geoInfoReference" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Location_geoInfoReference');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Location_geoInfoReference" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"geoInfoReference"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">(if applicable) Reference to geographical information source, often external to the utility.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Location_direction"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location')">Location</a></b> / direction</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Location_direction" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Location_direction');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Location_direction" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">(if applicable) Direction that allows field crews to quickly find a given asset. For a given location, such as a street address, this is the relative direction in which to find the asset. For example, a streetlight may be located at the 'NW' (northwest) corner of the customer's site, or a usage point may be located on the second floor of an apartment building.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Location_direction" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Location_direction');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Location_direction" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_direction.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_String256.html#String256" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String256')">String256</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Location_direction" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Location_direction');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Location_direction" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Location_direction" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Location_direction');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Location_direction" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"direction"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">(if applicable) Direction that allows field crews to quickly find a given asset. For a given location, such as a street address, this is the relative direction in which to find the asset. For example, a streetlight may be located at the 'NW' (northwest) corner of the customer's site, or a usage point may be located on the second floor of an apartment building.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Location_status"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location')">Location</a></b> / status</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Location_status" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Location_status');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Location_status" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Status of this location.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Location_status" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Location_status');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Location_status" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_status_3.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_Status.html#Status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Status')">Status</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Location_status" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Location_status');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Location_status" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Location_status" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Location_status');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Location_status" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"status"</span><span class="tAN"> type=</span><span class="tAV">"Status"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Status of this location.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Location_positionPoints"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location')">Location</a></b> / positionPoints</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Location_positionPoints" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Location_positionPoints');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Location_positionPoints" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Sequence of position points describing this location, expressed in coordinate system 'Location.CoordinateSystem'.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Location_positionPoints" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Location_positionPoints');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Location_positionPoints" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_positionPoints.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_PositionPoint.html#PositionPoint" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component PositionPoint')">PositionPoint</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Location_positionPoints" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Location_positionPoints');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Location_positionPoints" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">maxOccurs</td>
+                                    <td><b>unbounded</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Location_positionPoints" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Location_positionPoints');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Location_positionPoints" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"positionPoints"</span><span class="tAN"> type=</span><span class="tAV">"PositionPoint"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"unbounded"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Sequence of position points describing this location, expressed in coordinate system 'Location.CoordinateSystem'.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Location"></a><div class="componentTitle">Complex Type <span class="qname">Location</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Location" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Location');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Location" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">The place, scene, or point of something where someone or something has been, is, and/or will be at a given moment in time. It can be defined with one or more position points (coordinates) in a given coordinate system.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Location" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Location');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Location" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Complex_Type_Location.jpeg" usemap="#customer_v4_xsd_Complex_Type_Location" /><map name="customer_v4_xsd_Complex_Type_Location" id="customer_v4_xsd_Complex_Type_Location"><area alt="customer_v4_xsd_Complex_Type_Location.tmp#Location_type" href="customer_v4_xsd_Complex_Type_Location.html#Location_type" coords="317,6,459,84" /><area alt="customer_v4_xsd_Complex_Type_Location.tmp#Location_mainAddress" href="customer_v4_xsd_Complex_Type_Location.html#Location_mainAddress" coords="317,137,482,215" /><area alt="customer_v4_xsd_Complex_Type_Location.tmp#Location_secondaryAddress" href="customer_v4_xsd_Complex_Type_Location.html#Location_secondaryAddress" coords="317,255,482,333" /><area alt="customer_v4_xsd_Complex_Type_Location.tmp#Location_phone1" href="customer_v4_xsd_Complex_Type_Location.html#Location_phone1" coords="317,386,505,464" /><area alt="customer_v4_xsd_Complex_Type_Location.tmp#Location_phone2" href="customer_v4_xsd_Complex_Type_Location.html#Location_phone2" coords="317,504,505,582" /><area alt="customer_v4_xsd_Complex_Type_Location.tmp#Location_electronicAddress" href="customer_v4_xsd_Complex_Type_Location.html#Location_electronicAddress" coords="317,622,504,700" /><area alt="customer_v4_xsd_Complex_Type_Location.tmp#Location_geoInfoReference" href="customer_v4_xsd_Complex_Type_Location.html#Location_geoInfoReference" coords="317,740,459,818" /><area alt="customer_v4_xsd_Complex_Type_Location.tmp#Location_direction" href="customer_v4_xsd_Complex_Type_Location.html#Location_direction" coords="317,871,459,949" /><area alt="customer_v4_xsd_Complex_Type_Location.tmp#Location_status" href="customer_v4_xsd_Complex_Type_Location.html#Location_status" coords="317,1002,452,1080" /><area alt="customer_v4_xsd_Complex_Type_Location.tmp#Location_positionPoints" href="customer_v4_xsd_Complex_Type_Location.html#Location_positionPoints" coords="317,1120,476,1198" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>extension of <b><a href="customer_v4_xsd_Complex_Type_IdentifiedObject.html#IdentifiedObject" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component IdentifiedObject')">IdentifiedObject</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type hierarchy</b></td>
+                        <td>
+                           <ul class="internal">
+                              <li class="internal"><b>IdentifiedObject</b><ul class="internal">
+                                    <li class="internal"><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location')">Location</a></b></li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_Location" type="image" src="img/btM.gif" value="-" onclick="switchState('model_Location');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_Location" style="display:block"><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_type" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component type{0,1}')">type{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_mainAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component mainAddress{0,1}')">mainAddress{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_secondaryAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component secondaryAddress{0,1}')">secondaryAddress{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_phone1" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component phone1{0,1}')">phone1{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_phone2" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component phone2{0,1}')">phone2{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_electronicAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component electronicAddress{0,1}')">electronicAddress{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_geoInfoReference" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component geoInfoReference{0,1}')">geoInfoReference{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_direction" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component direction{0,1}')">direction{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component status{0,1}')">status{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_positionPoints" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component positionPoints*')">positionPoints*</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_direction" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component direction')">direction</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_electronicAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component electronicAddress')">electronicAddress</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_geoInfoReference" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component geoInfoReference')">geoInfoReference</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_mainAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component mainAddress')">mainAddress</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_phone1" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component phone1')">phone1</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_phone2" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component phone2')">phone2</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_positionPoints" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component positionPoints')">positionPoints</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_secondaryAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component secondaryAddress')">secondaryAddress</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component status')">status</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_type" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component type')">type</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Location" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Location');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Location" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:complexType</span><span class="tAN"> name=</span><span class="tAV">"Location"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The place, scene, or point of something where someone or something has been, is, and/or will be at a given moment in time. It can be defined with one or more position points (coordinates) in a given coordinate system.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:complexContent</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:extension</span><span class="tAN"> base=</span><span class="tAV">"IdentifiedObject"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Classification by utility's corporate standards and practices, relative to the location itself (e.g., geographical, functional accounting, etc., not a given property that happens to exist at that location).</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"mainAddress"</span><span class="tAN"> type=</span><span class="tAV">"StreetAddress"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Main address of the location.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"secondaryAddress"</span><span class="tAN"> type=</span><span class="tAV">"StreetAddress"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Secondary address of the location. For example, PO Box address may have different ZIP code than that in the 'mainAddress'.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"phone1"</span><span class="tAN"> type=</span><span class="tAV">"TelephoneNumber"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Phone number.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"phone2"</span><span class="tAN"> type=</span><span class="tAV">"TelephoneNumber"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Additional phone number.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"electronicAddress"</span><span class="tAN"> type=</span><span class="tAV">"ElectronicAddress"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Electronic address.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"geoInfoReference"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">(if applicable) Reference to geographical information source, often external to the utility.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"direction"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">(if applicable) Direction that allows field crews to quickly find a given asset. For a given location, such as a street address, this is the relative direction in which to find the asset. For example, a streetlight may be located at the 'NW' (northwest) corner of the customer's site, or a usage point may be located on the second floor of an apartment building.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"status"</span><span class="tAN"> type=</span><span class="tAV">"Status"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Status of this location.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"positionPoints"</span><span class="tAN"> type=</span><span class="tAV">"PositionPoint"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"unbounded"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Sequence of position points describing this location, expressed in coordinate system 'Location.CoordinateSystem'.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:extension&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:complexContent&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:complexType&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.</div>
+      </div><script type="text/javascript"><!--
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                //--></script></body>
+</html>
