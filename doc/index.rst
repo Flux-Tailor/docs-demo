@@ -8,7 +8,7 @@ Welcome to this the doc-demo
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Some Sample Contents:
 
    xml-schema.md
    some-feature.md
