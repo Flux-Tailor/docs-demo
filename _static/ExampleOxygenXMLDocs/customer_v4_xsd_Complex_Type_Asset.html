@@ -1,0 +1,1771 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component type</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript"><!--
+        var propertiesBoxes= new Array('properties_Asset_type', 
+				'properties_Asset_utcNumber', 
+				'properties_Asset_serialNumber', 
+				'properties_Asset_lotNumber', 
+				'properties_Asset_purchasePrice', 
+				'properties_Asset_critical', 
+				'properties_Asset_electronicAddress', 
+				'properties_Asset_lifecycle', 
+				'properties_Asset_acceptanceTest', 
+				'properties_Asset_initialCondition', 
+				'properties_Asset_initialLossOfLife', 
+				'properties_Asset_status');
+var sourceBoxes= new Array('source_Asset_type', 
+				'source_Asset_utcNumber', 
+				'source_Asset_serialNumber', 
+				'source_Asset_lotNumber', 
+				'source_Asset_purchasePrice', 
+				'source_Asset_critical', 
+				'source_Asset_electronicAddress', 
+				'source_Asset_lifecycle', 
+				'source_Asset_acceptanceTest', 
+				'source_Asset_initialCondition', 
+				'source_Asset_initialLossOfLife', 
+				'source_Asset_status', 
+				'source_Asset');
+var diagramBoxes= new Array('diagram_Asset_type', 
+				'diagram_Asset_utcNumber', 
+				'diagram_Asset_serialNumber', 
+				'diagram_Asset_lotNumber', 
+				'diagram_Asset_purchasePrice', 
+				'diagram_Asset_critical', 
+				'diagram_Asset_electronicAddress', 
+				'diagram_Asset_lifecycle', 
+				'diagram_Asset_acceptanceTest', 
+				'diagram_Asset_initialCondition', 
+				'diagram_Asset_initialLossOfLife', 
+				'diagram_Asset_status', 
+				'diagram_Asset');
+var annotationBoxes= new Array('annotations_Asset_type', 
+				'annotations_Asset_utcNumber', 
+				'annotations_Asset_serialNumber', 
+				'annotations_Asset_lotNumber', 
+				'annotations_Asset_purchasePrice', 
+				'annotations_Asset_critical', 
+				'annotations_Asset_electronicAddress', 
+				'annotations_Asset_lifecycle', 
+				'annotations_Asset_acceptanceTest', 
+				'annotations_Asset_initialCondition', 
+				'annotations_Asset_initialLossOfLife', 
+				'annotations_Asset_status', 
+				'annotations_Asset');
+var modelBoxes= new Array('model_Asset');
+
+      
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    
+                    //--></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, annotationBoxes);" class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, sourceBoxes);" class="control" /></span><span class="globalControlName">Source</span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="Asset_type"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset')">Asset</a></b> / type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Asset_type" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Asset_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Asset_type" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Utility-specific classification of Asset and its subtypes, according to their corporate standards, practices, and existing IT systems (e.g., for management of assets, maintenance, work, outage, customers, etc.).</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Asset_type" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Asset_type');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Asset_type" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_type_1.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_String256.html#String256" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String256')">String256</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Asset_type" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Asset_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Asset_type" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Asset_type" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Asset_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Asset_type" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Utility-specific classification of Asset and its subtypes, according to their corporate standards, practices, and existing IT systems (e.g., for management of assets, maintenance, work, outage, customers, etc.).</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Asset_utcNumber"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset')">Asset</a></b> / utcNumber</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Asset_utcNumber" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Asset_utcNumber');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Asset_utcNumber" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Uniquely tracked commodity (UTC) number.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Asset_utcNumber" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Asset_utcNumber');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Asset_utcNumber" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_utcNumber.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_String256.html#String256" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String256')">String256</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Asset_utcNumber" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Asset_utcNumber');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Asset_utcNumber" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Asset_utcNumber" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Asset_utcNumber');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Asset_utcNumber" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"utcNumber"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Uniquely tracked commodity (UTC) number.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Asset_serialNumber"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset')">Asset</a></b> / serialNumber</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Asset_serialNumber" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Asset_serialNumber');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Asset_serialNumber" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Serial number of this asset.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Asset_serialNumber" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Asset_serialNumber');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Asset_serialNumber" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_serialNumber.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_String256.html#String256" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String256')">String256</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Asset_serialNumber" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Asset_serialNumber');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Asset_serialNumber" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Asset_serialNumber" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Asset_serialNumber');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Asset_serialNumber" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"serialNumber"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Serial number of this asset.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Asset_lotNumber"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset')">Asset</a></b> / lotNumber</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Asset_lotNumber" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Asset_lotNumber');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Asset_lotNumber" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Lot number for this asset. Even for the same model and version number, many assets are manufactured in lots.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Asset_lotNumber" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Asset_lotNumber');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Asset_lotNumber" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_lotNumber.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_String256.html#String256" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String256')">String256</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Asset_lotNumber" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Asset_lotNumber');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Asset_lotNumber" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Asset_lotNumber" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Asset_lotNumber');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Asset_lotNumber" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"lotNumber"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Lot number for this asset. Even for the same model and version number, many assets are manufactured in lots.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Asset_purchasePrice"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset')">Asset</a></b> / purchasePrice</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Asset_purchasePrice" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Asset_purchasePrice');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Asset_purchasePrice" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Purchase price of asset.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Asset_purchasePrice" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Asset_purchasePrice');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Asset_purchasePrice" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_purchasePrice.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_Int48.html#Int48" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Int48')">Int48</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Asset_purchasePrice" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Asset_purchasePrice');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Asset_purchasePrice" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Asset_purchasePrice" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Asset_purchasePrice');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Asset_purchasePrice" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"purchasePrice"</span><span class="tAN"> type=</span><span class="tAV">"Int48"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Purchase price of asset.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Asset_critical"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset')">Asset</a></b> / critical</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Asset_critical" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Asset_critical');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Asset_critical" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">True if asset is considered critical for some reason (for example, a pole with critical attachments).</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Asset_critical" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Asset_critical');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Asset_critical" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_critical.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:boolean</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Asset_critical" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Asset_critical');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Asset_critical" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Asset_critical" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Asset_critical');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Asset_critical" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"critical"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">True if asset is considered critical for some reason (for example, a pole with critical attachments).</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Asset_electronicAddress"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset')">Asset</a></b> / electronicAddress</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Asset_electronicAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Asset_electronicAddress');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Asset_electronicAddress" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Electronic address.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Asset_electronicAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Asset_electronicAddress');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Asset_electronicAddress" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_electronicAddress.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_ElectronicAddress.html#ElectronicAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ElectronicAddress')">ElectronicAddress</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Asset_electronicAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Asset_electronicAddress');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Asset_electronicAddress" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Asset_electronicAddress" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Asset_electronicAddress');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Asset_electronicAddress" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"electronicAddress"</span><span class="tAN"> type=</span><span class="tAV">"ElectronicAddress"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Electronic address.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Asset_lifecycle"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset')">Asset</a></b> / lifecycle</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Asset_lifecycle" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Asset_lifecycle');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Asset_lifecycle" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Lifecycle dates for this asset.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Asset_lifecycle" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Asset_lifecycle');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Asset_lifecycle" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_lifecycle.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_LifecycleDate.html#LifecycleDate" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component LifecycleDate')">LifecycleDate</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Asset_lifecycle" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Asset_lifecycle');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Asset_lifecycle" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Asset_lifecycle" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Asset_lifecycle');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Asset_lifecycle" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"lifecycle"</span><span class="tAN"> type=</span><span class="tAV">"LifecycleDate"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Lifecycle dates for this asset.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Asset_acceptanceTest"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset')">Asset</a></b> / acceptanceTest</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Asset_acceptanceTest" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Asset_acceptanceTest');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Asset_acceptanceTest" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Information on acceptance test.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Asset_acceptanceTest" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Asset_acceptanceTest');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Asset_acceptanceTest" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_acceptanceTest.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_AcceptanceTest.html#AcceptanceTest" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component AcceptanceTest')">AcceptanceTest</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Asset_acceptanceTest" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Asset_acceptanceTest');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Asset_acceptanceTest" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Asset_acceptanceTest" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Asset_acceptanceTest');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Asset_acceptanceTest" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"acceptanceTest"</span><span class="tAN"> type=</span><span class="tAV">"AcceptanceTest"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Information on acceptance test.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Asset_initialCondition"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset')">Asset</a></b> / initialCondition</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Asset_initialCondition" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Asset_initialCondition');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Asset_initialCondition" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Condition of asset in inventory or at time of installation. Examples include new, rebuilt, overhaul required, other. Refer to inspection data for information on the most current condition of the asset.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Asset_initialCondition" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Asset_initialCondition');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Asset_initialCondition" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_initialCondition.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_String256.html#String256" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String256')">String256</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Asset_initialCondition" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Asset_initialCondition');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Asset_initialCondition" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Asset_initialCondition" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Asset_initialCondition');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Asset_initialCondition" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"initialCondition"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Condition of asset in inventory or at time of installation. Examples include new, rebuilt, overhaul required, other. Refer to inspection data for information on the most current condition of the asset.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Asset_initialLossOfLife"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset')">Asset</a></b> / initialLossOfLife</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Asset_initialLossOfLife" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Asset_initialLossOfLife');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Asset_initialLossOfLife" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Whenever an asset is reconditioned, percentage of expected life for the asset when it was new; zero for new devices.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Asset_initialLossOfLife" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Asset_initialLossOfLife');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Asset_initialLossOfLife" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_initialLossOfLife.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Simple_Type_PerCent.html#PerCent" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component PerCent')">PerCent</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Asset_initialLossOfLife" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Asset_initialLossOfLife');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Asset_initialLossOfLife" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Asset_initialLossOfLife" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Asset_initialLossOfLife');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Asset_initialLossOfLife" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"initialLossOfLife"</span><span class="tAN"> type=</span><span class="tAV">"PerCent"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Whenever an asset is reconditioned, percentage of expected life for the asset when it was new; zero for new devices.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Asset_status"></a><div class="componentTitle">Element <span class="qname"><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset')">Asset</a></b> / status</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Asset_status" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Asset_status');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Asset_status" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Status of this asset.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Asset_status" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Asset_status');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Asset_status" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Element_status_1.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_Status.html#Status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Status')">Status</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Asset_status" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Asset_status');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Asset_status" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Asset_status" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Asset_status');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Asset_status" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"status"</span><span class="tAN"> type=</span><span class="tAV">"Status"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Status of this asset.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Asset"></a><div class="componentTitle">Complex Type <span class="qname">Asset</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Asset" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Asset');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Asset" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Tangible resource of the utility, including power system equipment, various end devices, cabinets, buildings, etc. For electrical network equipment, the role of the asset is defined through PowerSystemResource and its subclasses, defined mainly in the Wires model (refer to IEC61970-301 and model package IEC61970::Wires). Asset description places emphasis on the physical characteristics of the equipment fulfilling that role.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Asset" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Asset');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Asset" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Complex_Type_Asset.jpeg" usemap="#customer_v4_xsd_Complex_Type_Asset" /><map name="customer_v4_xsd_Complex_Type_Asset" id="customer_v4_xsd_Complex_Type_Asset"><area alt="customer_v4_xsd_Complex_Type_Asset.tmp#Asset_type" href="customer_v4_xsd_Complex_Type_Asset.html#Asset_type" coords="296,6,438,84" /><area alt="customer_v4_xsd_Complex_Type_Asset.tmp#Asset_utcNumber" href="customer_v4_xsd_Complex_Type_Asset.html#Asset_utcNumber" coords="296,137,438,215" /><area alt="customer_v4_xsd_Complex_Type_Asset.tmp#Asset_serialNumber" href="customer_v4_xsd_Complex_Type_Asset.html#Asset_serialNumber" coords="296,255,438,333" /><area alt="customer_v4_xsd_Complex_Type_Asset.tmp#Asset_lotNumber" href="customer_v4_xsd_Complex_Type_Asset.html#Asset_lotNumber" coords="296,373,438,451" /><area alt="customer_v4_xsd_Complex_Type_Asset.tmp#Asset_purchasePrice" href="customer_v4_xsd_Complex_Type_Asset.html#Asset_purchasePrice" coords="296,504,431,582" /><area alt="customer_v4_xsd_Complex_Type_Asset.tmp#Asset_critical" href="customer_v4_xsd_Complex_Type_Asset.html#Asset_critical" coords="296,622,455,700" /><area alt="customer_v4_xsd_Complex_Type_Asset.tmp#Asset_electronicAddress" href="customer_v4_xsd_Complex_Type_Asset.html#Asset_electronicAddress" coords="296,753,483,831" /><area alt="customer_v4_xsd_Complex_Type_Asset.tmp#Asset_lifecycle" href="customer_v4_xsd_Complex_Type_Asset.html#Asset_lifecycle" coords="296,871,455,949" /><area alt="customer_v4_xsd_Complex_Type_Asset.tmp#Asset_acceptanceTest" href="customer_v4_xsd_Complex_Type_Asset.html#Asset_acceptanceTest" coords="296,989,470,1067" /><area alt="customer_v4_xsd_Complex_Type_Asset.tmp#Asset_initialCondition" href="customer_v4_xsd_Complex_Type_Asset.html#Asset_initialCondition" coords="296,1107,438,1185" /><area alt="customer_v4_xsd_Complex_Type_Asset.tmp#Asset_initialLossOfLife" href="customer_v4_xsd_Complex_Type_Asset.html#Asset_initialLossOfLife" coords="296,1238,431,1316" /><area alt="customer_v4_xsd_Complex_Type_Asset.tmp#Asset_status" href="customer_v4_xsd_Complex_Type_Asset.html#Asset_status" coords="296,1369,431,1447" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>extension of <b><a href="customer_v4_xsd_Complex_Type_IdentifiedObject.html#IdentifiedObject" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component IdentifiedObject')">IdentifiedObject</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type hierarchy</b></td>
+                        <td>
+                           <ul class="internal">
+                              <li class="internal"><b>IdentifiedObject</b><ul class="internal">
+                                    <li class="internal"><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset')">Asset</a></b></li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_Asset" type="image" src="img/btM.gif" value="-" onclick="switchState('model_Asset');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_Asset" style="display:block"><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_type" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component type{0,1}')">type{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_utcNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component utcNumber{0,1}')">utcNumber{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_serialNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component serialNumber{0,1}')">serialNumber{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_lotNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component lotNumber{0,1}')">lotNumber{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_purchasePrice" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component purchasePrice{0,1}')">purchasePrice{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_critical" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component critical{0,1}')">critical{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_electronicAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component electronicAddress{0,1}')">electronicAddress{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_lifecycle" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component lifecycle{0,1}')">lifecycle{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_acceptanceTest" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component acceptanceTest{0,1}')">acceptanceTest{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_initialCondition" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component initialCondition{0,1}')">initialCondition{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_initialLossOfLife" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component initialLossOfLife{0,1}')">initialLossOfLife{0,1}</a></b> , <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component status{0,1}')">status{0,1}</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_acceptanceTest" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component acceptanceTest')">acceptanceTest</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_critical" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component critical')">critical</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_electronicAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component electronicAddress')">electronicAddress</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_initialCondition" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component initialCondition')">initialCondition</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_initialLossOfLife" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component initialLossOfLife')">initialLossOfLife</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_lifecycle" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component lifecycle')">lifecycle</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_lotNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component lotNumber')">lotNumber</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_purchasePrice" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component purchasePrice')">purchasePrice</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_serialNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component serialNumber')">serialNumber</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component status')">status</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_type" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component type')">type</a></b>, <b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_utcNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component utcNumber')">utcNumber</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Asset" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Asset');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Asset" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:complexType</span><span class="tAN"> name=</span><span class="tAV">"Asset"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Tangible resource of the utility, including power system equipment, various end devices, cabinets, buildings, etc. For electrical network equipment, the role of the asset is defined through PowerSystemResource and its subclasses, defined mainly in the Wires model (refer to IEC61970-301 and model package IEC61970::Wires). Asset description places emphasis on the physical characteristics of the equipment fulfilling that role.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:complexContent</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:extension</span><span class="tAN"> base=</span><span class="tAV">"IdentifiedObject"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Utility-specific classification of Asset and its subtypes, according to their corporate standards, practices, and existing IT systems (e.g., for management of assets, maintenance, work, outage, customers, etc.).</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"utcNumber"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Uniquely tracked commodity (UTC) number.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"serialNumber"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Serial number of this asset.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"lotNumber"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Lot number for this asset. Even for the same model and version number, many assets are manufactured in lots.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"purchasePrice"</span><span class="tAN"> type=</span><span class="tAV">"Int48"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Purchase price of asset.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"critical"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">True if asset is considered critical for some reason (for example, a pole with critical attachments).</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"electronicAddress"</span><span class="tAN"> type=</span><span class="tAV">"ElectronicAddress"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Electronic address.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"lifecycle"</span><span class="tAN"> type=</span><span class="tAV">"LifecycleDate"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Lifecycle dates for this asset.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"acceptanceTest"</span><span class="tAN"> type=</span><span class="tAV">"AcceptanceTest"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Information on acceptance test.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"initialCondition"</span><span class="tAN"> type=</span><span class="tAV">"String256"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Condition of asset in inventory or at time of installation. Examples include new, rebuilt, overhaul required, other. Refer to inspection data for information on the most current condition of the asset.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"initialLossOfLife"</span><span class="tAN"> type=</span><span class="tAV">"PerCent"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Whenever an asset is reconditioned, percentage of expected life for the asset when it was new; zero for new devices.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"status"</span><span class="tAN"> type=</span><span class="tAV">"Status"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Status of this asset.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:extension&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:complexContent&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:complexType&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.</div>
+      </div><script type="text/javascript"><!--
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                //--></script></body>
+</html>

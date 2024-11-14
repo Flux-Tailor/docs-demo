@@ -1,0 +1,709 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for </title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript"><!--
+        
+      
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    
+                        //--></script></head>
+   <body>
+      <h2><a id="INDEX">Table of Contents</a></h2>
+      <div class="toc">
+         <form action="none">
+            <div><span> Group by: <select id="selectTOC" onchange="selectTOCGroupBy(this.options[this.selectedIndex].value, true, 'ExampleOxygenXMLDocs.indexList.html', 'ExampleOxygenXMLDocs.indexListns.html', 'ExampleOxygenXMLDocs.indexListcomp.html');">
+                     <option value="toc_group_by_namespace">Namespace</option>
+                     <option value="toc_group_by_location">Location</option>
+                     <option value="toc_group_by_component_type" selected="selected">Component Type</option></select></span></div>
+         </form>
+         <div class="level1" id="toc_group_by_component_type" style="display:block">
+            <div>
+               <div class="horizontalLayout">
+                  <table class="rt">
+                     <tr>
+                        <td class="rt_cornerTopLeft"></td>
+                        <td class="rt_lineTop"></td>
+                        <td class="rt_cornerTopRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_lineLeft"></td>
+                        <td class="rt_content">
+                           <table class="componentGroup">
+                              <tbody>
+                                 <tr>
+                                    <td class="componentGroup"><input id="button_Main_schema" type="image" value="-" src="img/btM.gif" onclick="switchState('Main_schema');" class="control" /></td>
+                                    <td class="componentGroup">
+                                       <div class="componentGroupTitle">Main Schema</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="componentGroup"></td>
+                                    <td class="componentGroup">
+                                       <div id="Main_schema" class="componentGroup" style="display:block">
+                                          <div><b><a href="customer_v4_xsd_Main_schema_customer_v4_xsd.html#customer_v4.xsd" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component customer_v4.xsd')">customer_v4.xsd</a></b></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </td>
+                        <td class="rt_lineRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_cornerBottomLeft"></td>
+                        <td class="rt_lineBottom"></td>
+                        <td class="rt_cornerBottomRight"></td>
+                     </tr>
+                  </table>
+               </div>
+               <div class="horizontalLayout">
+                  <table class="rt">
+                     <tr>
+                        <td class="rt_cornerTopLeft"></td>
+                        <td class="rt_lineTop"></td>
+                        <td class="rt_cornerTopRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_lineLeft"></td>
+                        <td class="rt_content">
+                           <table class="componentGroup">
+                              <tbody>
+                                 <tr>
+                                    <td class="componentGroup"><input id="button_Element" type="image" value="-" src="img/btM.gif" onclick="switchState('Element');" class="control" /></td>
+                                    <td class="componentGroup">
+                                       <div class="componentGroupTitle">Elements</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="componentGroup"></td>
+                                    <td class="componentGroup">
+                                       <div id="Element" class="componentGroup" style="display:block">
+                                          <div><b><a href="customer_v4_xsd_Element_AcceptanceTest.html#http___naesb.org_espi_customer_AcceptanceTest" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component AcceptanceTest')">AcceptanceTest</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_AcceptanceTest.html#AcceptanceTest_dateTime" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component AcceptanceTest/dateTime')">AcceptanceTest/dateTime</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_AcceptanceTest.html#AcceptanceTest_success" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component AcceptanceTest/success')">AcceptanceTest/success</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_AcceptanceTest.html#AcceptanceTest_type" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component AcceptanceTest/type')">AcceptanceTest/type</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_AccountNotification.html#http___naesb.org_espi_customer_AccountNotification" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component AccountNotification')">AccountNotification</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_AccountNotification.html#AccountNotification_customerNotificationKind" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component AccountNotification/customerNotificationKind')">AccountNotification/customerNotificationKind</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_AccountNotification.html#AccountNotification_methodKind" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component AccountNotification/methodKind')">AccountNotification/methodKind</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_AccountNotification.html#AccountNotification_note" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component AccountNotification/note')">AccountNotification/note</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_AccountNotification.html#AccountNotification_time" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component AccountNotification/time')">AccountNotification/time</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_Agreement.html#http___naesb.org_espi_customer_Agreement" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Agreement')">Agreement</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Agreement.html#Agreement_signDate" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Agreement/signDate')">Agreement/signDate</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Agreement.html#Agreement_validityInterval" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Agreement/validityInterval')">Agreement/validityInterval</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_Asset.html#http___naesb.org_espi_customer_Asset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset')">Asset</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_acceptanceTest" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset/acceptanceTest')">Asset/acceptanceTest</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_critical" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset/critical')">Asset/critical</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_electronicAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset/electronicAddress')">Asset/electronicAddress</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_initialCondition" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset/initialCondition')">Asset/initialCondition</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_initialLossOfLife" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset/initialLossOfLife')">Asset/initialLossOfLife</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_lifecycle" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset/lifecycle')">Asset/lifecycle</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_lotNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset/lotNumber')">Asset/lotNumber</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_purchasePrice" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset/purchasePrice')">Asset/purchasePrice</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_serialNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset/serialNumber')">Asset/serialNumber</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset/status')">Asset/status</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_type" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset/type')">Asset/type</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset_utcNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset/utcNumber')">Asset/utcNumber</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_AssetContainer.html#http___naesb.org_espi_customer_AssetContainer" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component AssetContainer')">AssetContainer</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_BatchItemInfo.html#http___naesb.org_espi_customer_BatchItemInfo" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component BatchItemInfo')">BatchItemInfo</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_BatchItemInfo.html#BatchItemInfo_name" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component BatchItemInfo/name')">BatchItemInfo/name</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_BatchItemInfo.html#BatchItemInfo_operation" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component BatchItemInfo/operation')">BatchItemInfo/operation</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_BatchItemInfo.html#BatchItemInfo_statusCode" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component BatchItemInfo/statusCode')">BatchItemInfo/statusCode</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_BatchItemInfo.html#BatchItemInfo_statusReason" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component BatchItemInfo/statusReason')">BatchItemInfo/statusReason</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_BatchList.html#BatchList" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component BatchList')">BatchList</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_BatchListType.html#BatchListType_resources" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component BatchListType/resources')">BatchListType/resources</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_Customer.html#http___naesb.org_espi_customer_Customer" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Customer')">Customer</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Customer.html#Customer_customerName" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Customer/customerName')">Customer/customerName</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Customer.html#Customer_kind" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Customer/kind')">Customer/kind</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Customer.html#Customer_locale" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Customer/locale')">Customer/locale</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Customer.html#Customer_priority" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Customer/priority')">Customer/priority</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Customer.html#Customer_pucNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Customer/pucNumber')">Customer/pucNumber</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Customer.html#Customer_specialNeed" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Customer/specialNeed')">Customer/specialNeed</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Customer.html#Customer_status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Customer/status')">Customer/status</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Customer.html#Customer_vip" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Customer/vip')">Customer/vip</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_CustomerAccount.html#http___naesb.org_espi_customer_CustomerAccount" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAccount')">CustomerAccount</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_CustomerAccount.html#CustomerAccount_accountId" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAccount/accountId')">CustomerAccount/accountId</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_CustomerAccount.html#CustomerAccount_billingCycle" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAccount/billingCycle')">CustomerAccount/billingCycle</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_CustomerAccount.html#CustomerAccount_budgetBill" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAccount/budgetBill')">CustomerAccount/budgetBill</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_CustomerAccount.html#CustomerAccount_contactInfo" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAccount/contactInfo')">CustomerAccount/contactInfo</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_CustomerAccount.html#CustomerAccount_lastBillAmount" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAccount/lastBillAmount')">CustomerAccount/lastBillAmount</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_CustomerAccount.html#CustomerAccount_notifications" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAccount/notifications')">CustomerAccount/notifications</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_CustomerAgreement.html#http___naesb.org_espi_customer_CustomerAgreement" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAgreement')">CustomerAgreement</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_CustomerAgreement.html#CustomerAgreement_DemandResponseProgram" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAgreement/DemandResponseProgram')">CustomerAgreement/DemandResponseProgram</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_CustomerAgreement.html#CustomerAgreement_PricingStructures" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAgreement/PricingStructures')">CustomerAgreement/PricingStructures</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_CustomerAgreement.html#CustomerAgreement_agreementId" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAgreement/agreementId')">CustomerAgreement/agreementId</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_CustomerAgreement.html#CustomerAgreement_currency" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAgreement/currency')">CustomerAgreement/currency</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_CustomerAgreement.html#CustomerAgreement_futureStatus" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAgreement/futureStatus')">CustomerAgreement/futureStatus</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_CustomerAgreement.html#CustomerAgreement_isPrePay" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAgreement/isPrePay')">CustomerAgreement/isPrePay</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_CustomerAgreement.html#CustomerAgreement_loadMgmt" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAgreement/loadMgmt')">CustomerAgreement/loadMgmt</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_CustomerAgreement.html#CustomerAgreement_shutOffDateTime" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAgreement/shutOffDateTime')">CustomerAgreement/shutOffDateTime</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_DateTimeInterval.html#http___naesb.org_espi_customer_DateTimeInterval" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component DateTimeInterval')">DateTimeInterval</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_DateTimeInterval.html#DateTimeInterval_duration" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component DateTimeInterval/duration')">DateTimeInterval/duration</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_DateTimeInterval.html#DateTimeInterval_start" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component DateTimeInterval/start')">DateTimeInterval/start</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_DemandResponseProgram.html#http___naesb.org_espi_customer_DemandResponseProgram" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component DemandResponseProgram')">DemandResponseProgram</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_DemandResponseProgram.html#DemandResponseProgram_DRProgramNomination" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component DemandResponseProgram/DRProgramNomination')">DemandResponseProgram/DRProgramNomination</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_DemandResponseProgram.html#DemandResponseProgram_capacityReservationLevel" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component DemandResponseProgram/capacityReservationLevel')">DemandResponseProgram/capacityReservationLevel</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_DemandResponseProgram.html#DemandResponseProgram_enrollmentStatus" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component DemandResponseProgram/enrollmentStatus')">DemandResponseProgram/enrollmentStatus</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_DemandResponseProgram.html#DemandResponseProgram_programDate" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component DemandResponseProgram/programDate')">DemandResponseProgram/programDate</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_DemandResponseProgram.html#DemandResponseProgram_programDescription" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component DemandResponseProgram/programDescription')">DemandResponseProgram/programDescription</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_DemandResponseProgram.html#DemandResponseProgram_programName" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component DemandResponseProgram/programName')">DemandResponseProgram/programName</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_Document.html#http___naesb.org_espi_customer_Document" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document')">Document</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_authorName" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document/authorName')">Document/authorName</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_comment" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document/comment')">Document/comment</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_createdDateTime" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document/createdDateTime')">Document/createdDateTime</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_docStatus" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document/docStatus')">Document/docStatus</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_electronicAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document/electronicAddress')">Document/electronicAddress</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_lastModifiedDateTime" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document/lastModifiedDateTime')">Document/lastModifiedDateTime</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_revisionNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document/revisionNumber')">Document/revisionNumber</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document/status')">Document/status</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_subject" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document/subject')">Document/subject</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_title" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document/title')">Document/title</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document_type" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document/type')">Document/type</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_ElectronicAddress.html#http___naesb.org_espi_customer_ElectronicAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ElectronicAddress')">ElectronicAddress</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ElectronicAddress.html#ElectronicAddress_email1" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ElectronicAddress/email1')">ElectronicAddress/email1</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ElectronicAddress.html#ElectronicAddress_email2" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ElectronicAddress/email2')">ElectronicAddress/email2</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ElectronicAddress.html#ElectronicAddress_lan" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ElectronicAddress/lan')">ElectronicAddress/lan</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ElectronicAddress.html#ElectronicAddress_mac" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ElectronicAddress/mac')">ElectronicAddress/mac</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ElectronicAddress.html#ElectronicAddress_password" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ElectronicAddress/password')">ElectronicAddress/password</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ElectronicAddress.html#ElectronicAddress_radio" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ElectronicAddress/radio')">ElectronicAddress/radio</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ElectronicAddress.html#ElectronicAddress_userID" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ElectronicAddress/userID')">ElectronicAddress/userID</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ElectronicAddress.html#ElectronicAddress_web" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ElectronicAddress/web')">ElectronicAddress/web</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_EndDevice.html#http___naesb.org_espi_customer_EndDevice" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component EndDevice')">EndDevice</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_EndDevice.html#EndDevice_amrSystem" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component EndDevice/amrSystem')">EndDevice/amrSystem</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_EndDevice.html#EndDevice_installCode" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component EndDevice/installCode')">EndDevice/installCode</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_EndDevice.html#EndDevice_isPan" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component EndDevice/isPan')">EndDevice/isPan</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_EndDevice.html#EndDevice_isVirtual" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component EndDevice/isVirtual')">EndDevice/isVirtual</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_IdentifiedObject.html#http___naesb.org_espi_customer_IdentifiedObject" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component IdentifiedObject')">IdentifiedObject</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_IdentifiedObject.html#IdentifiedObject_batchItemInfo" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component IdentifiedObject/batchItemInfo')">IdentifiedObject/batchItemInfo</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_IdentifiedObject.html#IdentifiedObject_name" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component IdentifiedObject/name')">IdentifiedObject/name</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_LifecycleDate.html#http___naesb.org_espi_customer_LifecycleDate" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component LifecycleDate')">LifecycleDate</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_LifecycleDate.html#LifecycleDate_installationDate" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component LifecycleDate/installationDate')">LifecycleDate/installationDate</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_LifecycleDate.html#LifecycleDate_manufacturedDate" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component LifecycleDate/manufacturedDate')">LifecycleDate/manufacturedDate</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_LifecycleDate.html#LifecycleDate_purchaseDate" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component LifecycleDate/purchaseDate')">LifecycleDate/purchaseDate</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_LifecycleDate.html#LifecycleDate_receivedDate" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component LifecycleDate/receivedDate')">LifecycleDate/receivedDate</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_LifecycleDate.html#LifecycleDate_removalDate" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component LifecycleDate/removalDate')">LifecycleDate/removalDate</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_LifecycleDate.html#LifecycleDate_retiredDate" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component LifecycleDate/retiredDate')">LifecycleDate/retiredDate</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_LocalTimeParameters.html#LocalTimeParameters" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component LocalTimeParameters')">LocalTimeParameters</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_Location.html#http___naesb.org_espi_customer_Location" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location')">Location</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_direction" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location/direction')">Location/direction</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_electronicAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location/electronicAddress')">Location/electronicAddress</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_geoInfoReference" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location/geoInfoReference')">Location/geoInfoReference</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_mainAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location/mainAddress')">Location/mainAddress</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_phone1" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location/phone1')">Location/phone1</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_phone2" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location/phone2')">Location/phone2</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_positionPoints" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location/positionPoints')">Location/positionPoints</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_secondaryAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location/secondaryAddress')">Location/secondaryAddress</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location/status')">Location/status</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location_type" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location/type')">Location/type</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_Meter.html#http___naesb.org_espi_customer_Meter" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Meter')">Meter</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Meter.html#Meter_MeterMultipliers" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Meter/MeterMultipliers')">Meter/MeterMultipliers</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Meter.html#Meter_formNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Meter/formNumber')">Meter/formNumber</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Meter.html#Meter_intervalLength" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Meter/intervalLength')">Meter/intervalLength</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_MeterMultiplier.html#http___naesb.org_espi_customer_MeterMultiplier" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component MeterMultiplier')">MeterMultiplier</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_MeterMultiplier.html#MeterMultiplier_kind" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component MeterMultiplier/kind')">MeterMultiplier/kind</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_MeterMultiplier.html#MeterMultiplier_value" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component MeterMultiplier/value')">MeterMultiplier/value</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_Object.html#http___naesb.org_espi_customer_Object" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Object')">Object</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Object.html#Object_extension" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Object/extension')">Object/extension</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_Organisation.html#http___naesb.org_espi_customer_Organisation" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Organisation')">Organisation</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Organisation.html#Organisation_electronicAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Organisation/electronicAddress')">Organisation/electronicAddress</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Organisation.html#Organisation_organisationName" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Organisation/organisationName')">Organisation/organisationName</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Organisation.html#Organisation_phone1" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Organisation/phone1')">Organisation/phone1</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Organisation.html#Organisation_phone2" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Organisation/phone2')">Organisation/phone2</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Organisation.html#Organisation_postalAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Organisation/postalAddress')">Organisation/postalAddress</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Organisation.html#Organisation_streetAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Organisation/streetAddress')">Organisation/streetAddress</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_OrganisationRole.html#http___naesb.org_espi_customer_OrganisationRole" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component OrganisationRole')">OrganisationRole</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_OrganisationRole.html#OrganisationRole_Organisation" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component OrganisationRole/Organisation')">OrganisationRole/Organisation</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_PositionPoint.html#http___naesb.org_espi_customer_PositionPoint" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component PositionPoint')">PositionPoint</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_PositionPoint.html#PositionPoint_xPosition" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component PositionPoint/xPosition')">PositionPoint/xPosition</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_PositionPoint.html#PositionPoint_yPosition" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component PositionPoint/yPosition')">PositionPoint/yPosition</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_PositionPoint.html#PositionPoint_zPosition" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component PositionPoint/zPosition')">PositionPoint/zPosition</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_PricingStructure.html#http___naesb.org_espi_customer_PricingStructure" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component PricingStructure')">PricingStructure</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_Priority.html#http___naesb.org_espi_customer_Priority" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Priority')">Priority</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Priority.html#Priority_justification" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Priority/justification')">Priority/justification</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Priority.html#Priority_rank" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Priority/rank')">Priority/rank</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Priority.html#Priority_type" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Priority/type')">Priority/type</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_ProgramDate.html#http___naesb.org_espi_customer_ProgramDate" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ProgramDate')">ProgramDate</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ProgramDate.html#ProgramDate_programDate" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ProgramDate/programDate')">ProgramDate/programDate</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ProgramDate.html#ProgramDate_programDateDescription" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ProgramDate/programDateDescription')">ProgramDate/programDateDescription</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_ProgramDateIdMapping.html#http___naesb.org_espi_customer_ProgramDateIdMapping" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ProgramDateIdMapping')">ProgramDateIdMapping</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ProgramDateIdMapping.html#ProgramDateIdMapping_code" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ProgramDateIdMapping/code')">ProgramDateIdMapping/code</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ProgramDateIdMapping.html#ProgramDateIdMapping_name" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ProgramDateIdMapping/name')">ProgramDateIdMapping/name</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ProgramDateIdMapping.html#ProgramDateIdMapping_note" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ProgramDateIdMapping/note')">ProgramDateIdMapping/note</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ProgramDateIdMapping.html#ProgramDateIdMapping_programDateType" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ProgramDateIdMapping/programDateType')">ProgramDateIdMapping/programDateType</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_ProgramDateIdMappings.html#http___naesb.org_espi_customer_ProgramDateIdMappings" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ProgramDateIdMappings')">ProgramDateIdMappings</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ProgramDateIdMappings.html#ProgramDateIdMappings_programDateIdMapping" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ProgramDateIdMappings/programDateIdMapping')">ProgramDateIdMappings/programDateIdMapping</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_ServiceLocation.html#http___naesb.org_espi_customer_ServiceLocation" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ServiceLocation')">ServiceLocation</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ServiceLocation.html#ServiceLocation_UsagePoints" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ServiceLocation/UsagePoints')">ServiceLocation/UsagePoints</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ServiceLocation.html#ServiceLocation_accessMethod" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ServiceLocation/accessMethod')">ServiceLocation/accessMethod</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ServiceLocation.html#ServiceLocation_needsInspection" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ServiceLocation/needsInspection')">ServiceLocation/needsInspection</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ServiceLocation.html#ServiceLocation_outageBlock" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ServiceLocation/outageBlock')">ServiceLocation/outageBlock</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ServiceLocation.html#ServiceLocation_siteAccessProblem" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ServiceLocation/siteAccessProblem')">ServiceLocation/siteAccessProblem</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_ServiceSupplier.html#http___naesb.org_espi_customer_ServiceSupplier" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ServiceSupplier')">ServiceSupplier</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ServiceSupplier.html#ServiceSupplier_effectiveDate" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ServiceSupplier/effectiveDate')">ServiceSupplier/effectiveDate</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ServiceSupplier.html#ServiceSupplier_issuerIdentificationNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ServiceSupplier/issuerIdentificationNumber')">ServiceSupplier/issuerIdentificationNumber</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ServiceSupplier.html#ServiceSupplier_kind" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ServiceSupplier/kind')">ServiceSupplier/kind</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_Statement.html#http___naesb.org_espi_customer_Statement" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Statement')">Statement</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Statement.html#Statement_issueDateTime" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Statement/issueDateTime')">Statement/issueDateTime</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Statement.html#Statement_statementRef" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Statement/statementRef')">Statement/statementRef</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_StatementRef.html#http___naesb.org_espi_customer_StatementRef" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StatementRef')">StatementRef</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StatementRef.html#StatementRef_fileName" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StatementRef/fileName')">StatementRef/fileName</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StatementRef.html#StatementRef_mediaType" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StatementRef/mediaType')">StatementRef/mediaType</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StatementRef.html#StatementRef_statementURL" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StatementRef/statementURL')">StatementRef/statementURL</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_Status.html#http___naesb.org_espi_customer_Status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Status')">Status</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Status.html#Status_dateTime" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Status/dateTime')">Status/dateTime</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Status.html#Status_reason" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Status/reason')">Status/reason</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Status.html#Status_remark" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Status/remark')">Status/remark</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Status.html#Status_value" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Status/value')">Status/value</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_StreetAddress.html#http___naesb.org_espi_customer_StreetAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetAddress')">StreetAddress</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetAddress.html#StreetAddress_poBox" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetAddress/poBox')">StreetAddress/poBox</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetAddress.html#StreetAddress_postalCode" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetAddress/postalCode')">StreetAddress/postalCode</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetAddress.html#StreetAddress_status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetAddress/status')">StreetAddress/status</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetAddress.html#StreetAddress_streetDetail" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetAddress/streetDetail')">StreetAddress/streetDetail</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetAddress.html#StreetAddress_townDetail" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetAddress/townDetail')">StreetAddress/townDetail</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_StreetDetail.html#http___naesb.org_espi_customer_StreetDetail" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetDetail')">StreetDetail</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetDetail.html#StreetDetail_addressGeneral" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetDetail/addressGeneral')">StreetDetail/addressGeneral</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetDetail.html#StreetDetail_addressGeneral2" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetDetail/addressGeneral2')">StreetDetail/addressGeneral2</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetDetail.html#StreetDetail_addressGeneral3" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetDetail/addressGeneral3')">StreetDetail/addressGeneral3</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetDetail.html#StreetDetail_buildingName" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetDetail/buildingName')">StreetDetail/buildingName</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetDetail.html#StreetDetail_code" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetDetail/code')">StreetDetail/code</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetDetail.html#StreetDetail_name" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetDetail/name')">StreetDetail/name</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetDetail.html#StreetDetail_number" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetDetail/number')">StreetDetail/number</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetDetail.html#StreetDetail_prefix" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetDetail/prefix')">StreetDetail/prefix</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetDetail.html#StreetDetail_suffix" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetDetail/suffix')">StreetDetail/suffix</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetDetail.html#StreetDetail_suiteNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetDetail/suiteNumber')">StreetDetail/suiteNumber</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetDetail.html#StreetDetail_type" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetDetail/type')">StreetDetail/type</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetDetail.html#StreetDetail_withinTownLimits" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetDetail/withinTownLimits')">StreetDetail/withinTownLimits</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_SummaryMeasurement.html#http___naesb.org_espi_customer_SummaryMeasurement" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component SummaryMeasurement')">SummaryMeasurement</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_SummaryMeasurement.html#SummaryMeasurement_powerOfTenMultiplier" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component SummaryMeasurement/powerOfTenMultiplier')">SummaryMeasurement/powerOfTenMultiplier</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_SummaryMeasurement.html#SummaryMeasurement_readingTypeRef" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component SummaryMeasurement/readingTypeRef')">SummaryMeasurement/readingTypeRef</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_SummaryMeasurement.html#SummaryMeasurement_timeStamp" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component SummaryMeasurement/timeStamp')">SummaryMeasurement/timeStamp</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_SummaryMeasurement.html#SummaryMeasurement_uom" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component SummaryMeasurement/uom')">SummaryMeasurement/uom</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_SummaryMeasurement.html#SummaryMeasurement_value" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component SummaryMeasurement/value')">SummaryMeasurement/value</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_TelephoneNumber.html#http___naesb.org_espi_customer_TelephoneNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TelephoneNumber')">TelephoneNumber</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TelephoneNumber.html#TelephoneNumber_areaCode" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TelephoneNumber/areaCode')">TelephoneNumber/areaCode</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TelephoneNumber.html#TelephoneNumber_cityCode" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TelephoneNumber/cityCode')">TelephoneNumber/cityCode</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TelephoneNumber.html#TelephoneNumber_countryCode" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TelephoneNumber/countryCode')">TelephoneNumber/countryCode</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TelephoneNumber.html#TelephoneNumber_dialOut" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TelephoneNumber/dialOut')">TelephoneNumber/dialOut</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TelephoneNumber.html#TelephoneNumber_ext" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TelephoneNumber/ext')">TelephoneNumber/ext</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TelephoneNumber.html#TelephoneNumber_internationalPrefix" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TelephoneNumber/internationalPrefix')">TelephoneNumber/internationalPrefix</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TelephoneNumber.html#TelephoneNumber_ituPhone" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TelephoneNumber/ituPhone')">TelephoneNumber/ituPhone</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TelephoneNumber.html#TelephoneNumber_localNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TelephoneNumber/localNumber')">TelephoneNumber/localNumber</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_TimeConfiguration.html#http___naesb.org_espi_customer_TimeConfiguration" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TimeConfiguration')">TimeConfiguration</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TimeConfiguration.html#TimeConfiguration_dstEndRule" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TimeConfiguration/dstEndRule')">TimeConfiguration/dstEndRule</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TimeConfiguration.html#TimeConfiguration_dstOffset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TimeConfiguration/dstOffset')">TimeConfiguration/dstOffset</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TimeConfiguration.html#TimeConfiguration_dstStartRule" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TimeConfiguration/dstStartRule')">TimeConfiguration/dstStartRule</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TimeConfiguration.html#TimeConfiguration_tzOffset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TimeConfiguration/tzOffset')">TimeConfiguration/tzOffset</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_TownDetail.html#http___naesb.org_espi_customer_TownDetail" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TownDetail')">TownDetail</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TownDetail.html#TownDetail_code" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TownDetail/code')">TownDetail/code</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TownDetail.html#TownDetail_country" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TownDetail/country')">TownDetail/country</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TownDetail.html#TownDetail_county" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TownDetail/county')">TownDetail/county</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TownDetail.html#TownDetail_name" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TownDetail/name')">TownDetail/name</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TownDetail.html#TownDetail_section" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TownDetail/section')">TownDetail/section</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TownDetail.html#TownDetail_stateOrProvince" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TownDetail/stateOrProvince')">TownDetail/stateOrProvince</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_UsagePoint.html#http___naesb.org_espi_customer_UsagePoint" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component UsagePoint')">UsagePoint</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_UsagePoints.html#http___naesb.org_espi_customer_UsagePoints" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component UsagePoints')">UsagePoints</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Element_WorkLocation.html#http___naesb.org_espi_customer_WorkLocation" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component WorkLocation')">WorkLocation</a></b></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </td>
+                        <td class="rt_lineRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_cornerBottomLeft"></td>
+                        <td class="rt_lineBottom"></td>
+                        <td class="rt_cornerBottomRight"></td>
+                     </tr>
+                  </table>
+               </div>
+               <div class="horizontalLayout">
+                  <table class="rt">
+                     <tr>
+                        <td class="rt_cornerTopLeft"></td>
+                        <td class="rt_lineTop"></td>
+                        <td class="rt_cornerTopRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_lineLeft"></td>
+                        <td class="rt_content">
+                           <table class="componentGroup">
+                              <tbody>
+                                 <tr>
+                                    <td class="componentGroup"><input id="button_Complex_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('Complex_Type');" class="control" /></td>
+                                    <td class="componentGroup">
+                                       <div class="componentGroupTitle">Complex Types</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="componentGroup"></td>
+                                    <td class="componentGroup">
+                                       <div id="Complex_Type" class="componentGroup" style="display:block">
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_AcceptanceTest.html#AcceptanceTest" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component AcceptanceTest')">AcceptanceTest</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_AccountNotification.html#AccountNotification" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component AccountNotification')">AccountNotification</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Agreement.html#Agreement" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Agreement')">Agreement</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Asset.html#Asset" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Asset')">Asset</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_AssetContainer.html#AssetContainer" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component AssetContainer')">AssetContainer</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_BatchItemInfo.html#BatchItemInfo" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component BatchItemInfo')">BatchItemInfo</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_BatchListType.html#BatchListType" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component BatchListType')">BatchListType</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Customer.html#Customer" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Customer')">Customer</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_CustomerAccount.html#CustomerAccount" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAccount')">CustomerAccount</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_CustomerAgreement.html#CustomerAgreement" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerAgreement')">CustomerAgreement</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_DateTimeInterval.html#DateTimeInterval" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component DateTimeInterval')">DateTimeInterval</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_DemandResponseProgram.html#DemandResponseProgram" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component DemandResponseProgram')">DemandResponseProgram</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Document.html#Document" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Document')">Document</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ElectronicAddress.html#ElectronicAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ElectronicAddress')">ElectronicAddress</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_EndDevice.html#EndDevice" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component EndDevice')">EndDevice</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_IdentifiedObject.html#IdentifiedObject" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component IdentifiedObject')">IdentifiedObject</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_LifecycleDate.html#LifecycleDate" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component LifecycleDate')">LifecycleDate</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Location.html#Location" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Location')">Location</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Meter.html#Meter" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Meter')">Meter</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_MeterMultiplier.html#MeterMultiplier" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component MeterMultiplier')">MeterMultiplier</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Object.html#Object" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Object')">Object</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Organisation.html#Organisation" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Organisation')">Organisation</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_OrganisationRole.html#OrganisationRole" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component OrganisationRole')">OrganisationRole</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_PositionPoint.html#PositionPoint" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component PositionPoint')">PositionPoint</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_PricingStructure.html#PricingStructure" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component PricingStructure')">PricingStructure</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Priority.html#Priority" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Priority')">Priority</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ProgramDate.html#ProgramDate" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ProgramDate')">ProgramDate</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ProgramDateIdMapping.html#ProgramDateIdMapping" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ProgramDateIdMapping')">ProgramDateIdMapping</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ProgramDateIdMappings.html#ProgramDateIdMappings" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ProgramDateIdMappings')">ProgramDateIdMappings</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ServiceLocation.html#ServiceLocation" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ServiceLocation')">ServiceLocation</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_ServiceSupplier.html#ServiceSupplier" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ServiceSupplier')">ServiceSupplier</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Statement.html#Statement" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Statement')">Statement</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StatementRef.html#StatementRef" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StatementRef')">StatementRef</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_Status.html#Status" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Status')">Status</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetAddress.html#StreetAddress" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetAddress')">StreetAddress</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_StreetDetail.html#StreetDetail" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StreetDetail')">StreetDetail</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_SummaryMeasurement.html#SummaryMeasurement" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component SummaryMeasurement')">SummaryMeasurement</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TelephoneNumber.html#TelephoneNumber" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TelephoneNumber')">TelephoneNumber</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TimeConfiguration.html#TimeConfiguration" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TimeConfiguration')">TimeConfiguration</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_TownDetail.html#TownDetail" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TownDetail')">TownDetail</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_UsagePoint.html#UsagePoint" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component UsagePoint')">UsagePoint</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_UsagePoints.html#UsagePoints" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component UsagePoints')">UsagePoints</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Complex_Type_WorkLocation.html#WorkLocation" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component WorkLocation')">WorkLocation</a></b></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </td>
+                        <td class="rt_lineRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_cornerBottomLeft"></td>
+                        <td class="rt_lineBottom"></td>
+                        <td class="rt_cornerBottomRight"></td>
+                     </tr>
+                  </table>
+               </div>
+               <div class="horizontalLayout">
+                  <table class="rt">
+                     <tr>
+                        <td class="rt_cornerTopLeft"></td>
+                        <td class="rt_lineTop"></td>
+                        <td class="rt_cornerTopRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_lineLeft"></td>
+                        <td class="rt_content">
+                           <table class="componentGroup">
+                              <tbody>
+                                 <tr>
+                                    <td class="componentGroup"><input id="button_Simple_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('Simple_Type');" class="control" /></td>
+                                    <td class="componentGroup">
+                                       <div class="componentGroupTitle">Simple Types</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="componentGroup"></td>
+                                    <td class="componentGroup">
+                                       <div id="Simple_Type" class="componentGroup" style="display:block">
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_CRUDOperation.html#CRUDOperation" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CRUDOperation')">CRUDOperation</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_Currency.html#Currency" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Currency')">Currency</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_CustomerKind.html#CustomerKind" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component CustomerKind')">CustomerKind</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_DstRuleType.html#DstRuleType" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component DstRuleType')">DstRuleType</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_EnrollmentStatus.html#EnrollmentStatus" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component EnrollmentStatus')">EnrollmentStatus</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_HexBinary128.html#HexBinary128" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component HexBinary128')">HexBinary128</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_HexBinary16.html#HexBinary16" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component HexBinary16')">HexBinary16</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_HexBinary32.html#HexBinary32" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component HexBinary32')">HexBinary32</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_HexBinary8.html#HexBinary8" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component HexBinary8')">HexBinary8</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_Int16.html#Int16" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Int16')">Int16</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_Int48.html#Int48" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component Int48')">Int48</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_MediaType.html#MediaType" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component MediaType')">MediaType</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_MeterMultiplierKind.html#MeterMultiplierKind" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component MeterMultiplierKind')">MeterMultiplierKind</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_NotificationMethodKind.html#NotificationMethodKind" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component NotificationMethodKind')">NotificationMethodKind</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_PerCent.html#PerCent" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component PerCent')">PerCent</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_ProgramDateKind.html#ProgramDateKind" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ProgramDateKind')">ProgramDateKind</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_RevenueKind.html#RevenueKind" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component RevenueKind')">RevenueKind</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_ServiceKind.html#ServiceKind" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component ServiceKind')">ServiceKind</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_StatusCode.html#StatusCode" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component StatusCode')">StatusCode</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_String256.html#String256" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String256')">String256</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_String32.html#String32" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String32')">String32</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_String512.html#String512" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String512')">String512</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_String64.html#String64" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component String64')">String64</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_SupplierKind.html#SupplierKind" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component SupplierKind')">SupplierKind</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_TimeType.html#TimeType" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component TimeType')">TimeType</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_UInt16.html#UInt16" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component UInt16')">UInt16</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_UInt32.html#UInt32" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component UInt32')">UInt32</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_UInt48.html#UInt48" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component UInt48')">UInt48</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_UInt8.html#UInt8" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component UInt8')">UInt8</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_UUIDType.html#UUIDType" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component UUIDType')">UUIDType</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_UnitMultiplierKind.html#UnitMultiplierKind" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component UnitMultiplierKind')">UnitMultiplierKind</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_UnitSymbolKind.html#UnitSymbolKind" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component UnitSymbolKind')">UnitSymbolKind</a></b></div>
+                                          <div><b><a href="customer_v4_xsd_Simple_Type_name.html#name" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component name')">name</a></b></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </td>
+                        <td class="rt_lineRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_cornerBottomLeft"></td>
+                        <td class="rt_lineBottom"></td>
+                        <td class="rt_cornerBottomRight"></td>
+                     </tr>
+                  </table>
+               </div>
+               <div style="clear:left"></div>
+            </div>
+         </div>
+      </div>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.</div>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,1148 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component UnitSymbolKind</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript"><!--
+        var sourceBoxes= new Array('source_UnitSymbolKind');
+var diagramBoxes= new Array('diagram_UnitSymbolKind');
+var annotationBoxes= new Array('annotations_UnitSymbolKind');
+
+      
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    
+                    //--></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, annotationBoxes);" class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, sourceBoxes);" class="control" /></span><span class="globalControlName">Source</span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="UnitSymbolKind"></a><div class="componentTitle">Simple Type <span class="qname">UnitSymbolKind</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://naesb.org/espi/customer</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_UnitSymbolKind" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_UnitSymbolKind');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_UnitSymbolKind" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%">
+                                          <pre><span class="tT">Code for the base unit of measure for Readings of ReadingType.  Used in combination with the powerOfTenMultiplier to specify the actual unit of measure. Valid values per the standard are defined in UomType.</span></pre>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UnitSymbolKind" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UnitSymbolKind');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UnitSymbolKind" style="display:block"><img alt="Diagram" border="0" src="img/customer_v4_xsd_Simple_Type_UnitSymbolKind.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>union of(<b><a href="customer_v4_xsd_Simple_Type_UInt16.html#UInt16" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component UInt16')">UInt16</a></b>, restriction of <b><a href="customer_v4_xsd_Simple_Type_UInt16.html#UInt16" target="mainFrame" title="http://naesb.org/espi/customer" onclick="updatePageTitle('Schema documentation for component UInt16')">UInt16</a></b>)</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UnitSymbolKind" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UnitSymbolKind');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UnitSymbolKind" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tEl">&lt;xs:simpleType</span><span class="tAN"> name=</span><span class="tAV">"UnitSymbolKind"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Code for the base unit of measure for Readings of ReadingType. Used in combination with the powerOfTenMultiplier to specify the actual unit of measure. Valid values per the standard are defined in UomType.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:union</span><span class="tAN"> memberTypes=</span><span class="tAV">"UInt16"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"UInt16"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"61"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">VA</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Apparent power, Volt Ampere (See also real power and reactive power.), VA</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"38"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">W</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Real power, Watt. By definition, one Watt equals one Joule per second. Electrical power may have real and reactive components. The real portion of electrical power (I²R) or VIcos?, is expressed in Watts. (See also apparent power and reactive power.), W</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"63"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">VAr</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Reactive power, Volt Ampere reactive. The “reactive” or “imaginary” component of electrical power (VISin?). (See also real power and apparent power)., VAr</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"71"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">VAh</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Apparent energy, Volt Ampere hours, VAh</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"72"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Wh</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Real energy, Watt hours, Wh</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"73"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">VArh</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Reactive energy, Volt Ampere reactive hours, VArh</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"29"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">V</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Electric potential, Volt (W/A), V</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"30"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">ohm</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Electric resistance, Ohm (V/A), O</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"5"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Current, ampere, A</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"25"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">F</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Electric capacitance, Farad (C/V), °C</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"28"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">H</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Electric inductance, Henry (Wb/A), H</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"23"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">degC</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Relative temperature in degrees Celsius. In the SI unit system the symbol is ºC. Electric charge is measured in coulomb that has the unit symbol C. To distinguish degree Celsius from coulomb the symbol used in the UML is degC. Reason for not using ºC is the special character º is difficult to manage in software.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"27"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">sec</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Time, seconds, s</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"159"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">min</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Time, minute = s * 60, min</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"160"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">h</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Time, hour = minute * 60, h</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"9"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">deg</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Plane angle, degrees, deg</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"10"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">rad</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Plane angle, Radian (m/m), rad</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"31"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">J</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Energy joule, (N·m = C·V = W·s), J</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"32"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">n</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Force newton, (kg m/s²), N</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"53"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">siemens</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Electric conductance, Siemens (A / V = 1 / O), S</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">none</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">N/A, None</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"33"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Hz</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Frequency hertz, (1/s), Hz</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"3"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">g</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Mass in gram, g</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"39"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">pa</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Pressure, Pascal (N/m²)(Note: the absolute or relative measurement of pressure is implied with this entry. See below for more explicit forms.), Pa</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"2"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">m</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Length, meter, m</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"41"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">m2</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Area, square meter, m²</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"42"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">m3</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volume, cubic meter, m³</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"69"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A2</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Amps squared, amp squared, A2</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"105"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A2h</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">ampere-squared, Ampere-squared hour, A²h</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"70"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A2s</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Amps squared time, square amp second, A²s</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"106"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Ah</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Ampere-hours, Ampere-hours, Ah</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"152"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">APerA</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Current, Ratio of Amperage, A/A</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"103"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">APerM</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A/m, magnetic field strength, Ampere per metre, A/m</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"68"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">As</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Amp seconds, amp seconds, As</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"79"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">b</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Sound pressure level, Bel, acoustic, Combine with multiplier prefix “d” to form decibels of Sound Pressure Level“dB (SPL).”, B (SPL)</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"113"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">bm</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Signal Strength, Bel-mW, normalized to 1mW. Note: to form “dBm” combine “Bm” with multiplier “d”. Bm</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"22"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">bq</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Radioactivity, Becquerel (1/s), Bq</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"132"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">btu</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Energy, British Thermal Units, BTU</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"133"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">btuPerH</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Power, BTU per hour, BTU/h</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"8"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">cd</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Luminous intensity, candela, cd</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"76"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">char</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Number of characters, characters, char</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"75"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">HzPerSec</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Rate of change of frequency, hertz per second, Hz/s</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"114"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">code</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Application Value, encoded value, code</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"65"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">cosTheta</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Power factor, Dimensionless, cos?</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"111"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">count</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Amount of substance, counter value, count</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"119"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">ft3</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volume, cubic feet, ft³</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"120"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">ft3compensated</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volume, cubic feet, ft³(compensated)</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"123"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">ft3compensatedPerH</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volumetric flow rate, compensated cubic feet per hour, ft³(compensated)/h</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"78"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">gM2</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Turbine inertia, gram·meter2 (Combine with multiplier prefix “k” to form kg·m2.), gm²</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"144"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">gPerG</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Concentration, The ratio of the mass of a solute divided by the mass of the solution., g/g</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"21"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">gy</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Absorbed dose, Gray (J/kg), GY</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"150"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">HzPerHz</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Frequency, Rate of frequency change, Hz/Hz</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"77"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">charPerSec</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Data rate, characters per second, char/s</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"130"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">imperialGal</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volume, imperial gallons, ImperialGal</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"131"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">imperialGalPerH</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volumetric flow rate, Imperial gallons per hour, ImperialGal/h</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"51"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">jPerK</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Heat capacity, Joule/Kelvin, J/K</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"165"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">jPerKg</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Specific energy, Joules / kg, J/kg</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"6"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">K</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Temperature, Kelvin, K</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"158"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">kat</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Catalytic activity, katal = mol / s, kat</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"47"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">kgM</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Moment of mass ,kilogram meter (kg·m), M</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"48"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">kgPerM3</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Density, gram/cubic meter (combine with prefix multiplier “k” to form kg/ m³), g/m³</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"134"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">litre</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volume, litre = dm3 = m3/1000., L</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"157"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">litreCompensated</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volume, litre, with the value compensated for weather effects, L(compensated)</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"138"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">litreCompensatedPerH</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volumetric flow rate, litres (compensated) per hour, L(compensated)/h</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"137"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">litrePerH</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volumetric flow rate, litres per hour, L/h</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"143"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">litrePerLitre</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Concentration, The ratio of the volume of a solute divided by the volume of the solution., L/L</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"82"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">litrePerSec</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volumetric flow rate, Volumetric flow rate, L/s</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"156"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">litreUncompensated</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volume, litre, with the value uncompensated for weather effects., L(uncompensated)</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"139"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">litreUncompensatedPerH</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volumetric flow rate, litres (uncompensated) per hour, L(uncompensated)/h</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"35"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">lm</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Luminous flux, lumen (cd sr), Lm</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"34"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">lx</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Illuminance lux, (lm/m²), L(uncompensated)/h</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"49"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">m2PerSec</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Viscosity, meter squared / second, m²/s</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"167"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">m3compensated</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volume, cubic meter, with the value compensated for weather effects., m3(compensated)</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"126"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">m3compensatedPerH</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volumetric flow rate, compensated cubic meters per hour, ³(compensated)/h</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"125"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">m3PerH</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volumetric flow rate, cubic meters per hour, m³/h</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"45"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">m3PerSec</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">m3PerSec, cubic meters per second, m³/s</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"166"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">m3uncompensated</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">m3uncompensated, cubic meter, with the value uncompensated for weather effects., m3(uncompensated)</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"127"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">m3uncompensatedPerH</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volumetric flow rate, uncompensated cubic meters per hour, m³(uncompensated)/h</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"118"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">meCode</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">EndDeviceEvent, value to be interpreted as a EndDeviceEventCode, meCode</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"7"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">mol</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Amount of substance, mole, mol</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"147"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">molPerKg</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Concentration, Molality, the amount of solute in moles and the amount of solvent in kilograms., mol/kg</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"145"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">molPerM3</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Concentration, The amount of substance concentration, (c), the amount of solvent in moles divided by the volume of solution in m³., mol/ m³</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"146"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">molPerMol</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Concentration, Molar fraction (?), the ratio of the molar amount of a solute divided by the molar amount of the solution.,mol/mol</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"80"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">money</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Monetary unit, Generic money (Note: Specific monetary units are identified the currency class)., ¤</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"148"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">mPerM</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Length, Ratio of length, m/m</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"46"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">mPerM3</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Fuel efficiency, meters / cubic meter, m/m³</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"43"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">mPerSec</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Velocity, meters per second (m/s), m/s</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"44"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">mPerSec2</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Acceleration, meters per second squared, m/s²</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"102"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">ohmM</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">resistivity, ? (rho), ?m</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"155"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">paA</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Pressure, Pascal, absolute pressure, PaA</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"140"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">paG</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Pressure, Pascal, gauge pressure, PaG</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"141"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">psiA</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Pressure, Pounds per square inch, absolute, psiA</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"142"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">psiG</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Pressure, Pounds per square inch, gauge, psiG</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"100"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">q</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Quantity power, Q, Q</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"161"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">q45</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Quantity power, Q measured at 45º, Q45</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"163"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">q45h</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Quantity energy, Q measured at 45º, Q45h</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"162"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">q60</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Quantity power, Q measured at 60º, Q60</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"164"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">q60h</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Quantity energy, Qh measured at 60º, Q60h</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"101"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">qh</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Quantity energy, Qh, Qh</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"54"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">radPerSec</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Angular velocity, radians per second, rad/s</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"154"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">rev</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Amount of rotation, Revolutions, rev</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"4"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">revPerSec</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Rotational speed, Rotations per second, rev/s</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"149"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">secPerSec</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Time, Ratio of time (can be combined with an multiplier prefix to show rates such as a clock drift rate, e.g. “µs/s”), s/s</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"11"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">sr</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Solid angle, Steradian (m2/m2), sr</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"109"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">status</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">State, "1" = "true", "live", "on", "high", "set"; "0" = "false", "dead", "off", "low", "cleared". Note: A Boolean value is preferred but other values may be supported, status</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"24"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">sv</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Doe equivalent, Sievert (J/kg), Sv</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"37"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">t</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Magnetic flux density, Tesla (Wb/m2), T</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"169"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">therm</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Energy, Therm, therm</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"108"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">timeStamp</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Timestamp, time and date per ISO 8601 format, timeStamp</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"128"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">usGal</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volume, US gallons, Gal</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"129"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">usGalPerH</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volumetric flow rate, US gallons per hour, USGal/h</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"67"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">V2</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volts squared, Volt squared (W2/A2), V²</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"104"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">V2h</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">volt-squared hour, Volt-squared-hours, V²h</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"117"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">VAhPerRev</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Kh-Vah, apparent energy metering constant, VAh/rev</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"116"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">VArhPerRev</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Kh-VArh, reactive energy metering constant, VArh/rev</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"74"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">VPerHz</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Magnetic flux, Volts per Hertz, V/Hz</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"151"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">VPerV</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Voltage, Ratio of voltages (e.g. mV/V), V/V</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"66"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Vs</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Volt seconds, Volt seconds (Ws/A), Vs</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"36"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">wb</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Magnetic flux, Weber (V s), Wb</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"107"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WhPerM3</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Wh/m3, energy per volume, Wh/m³</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"115"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WhPerRev</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Kh-Wh, active energy metering constant, Wh/rev</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"50"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">wPerMK</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Thermal conductivity, Watt/meter Kelvin, W/m K</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"81"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WPerSec</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Ramp rate, Watts per second, W/s</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"153"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WPerVA</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Power Factor, PF, W/VA</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"168"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:appinfo</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WPerW</span><span class="tEl">&lt;/xs:appinfo&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Signal Strength, Ratio of power, W/W</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:restriction&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:simpleType&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:union&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:simpleType&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema location</b></td>
+                        <td>file:/Users/boek/Library/CloudStorage/GoogleDrive-klaar@fluxtailor.com/My Drive/DataStandards/GreenButton/Schemas/V4/customer_v4.xsd</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.</div>
+      </div><script type="text/javascript"><!--
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                //--></script></body>
+</html>
